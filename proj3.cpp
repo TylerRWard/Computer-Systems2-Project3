@@ -31,7 +31,7 @@ public:
         if (variables.count(var_name)) {
             free(var_name);
         }
-        // Find a suitable block in the free list
+     
         for (auto it = free_list.begin(); it != free_list.end(); ++it) {
             if (it->size >= size) {
                 // Create new block for variable
@@ -49,19 +49,18 @@ public:
                 return;
             }
         }
-        // Optional: Handle allocation failure (e.g., no suitable block)
     }
 
     void copy(const string& var1, const string& var2) {
         if (var1 == var2) {
-            return; // Skip self-assignment
+            return; 
         }
         if (variables.count(var2)) {
             if (variables.count(var1)) {
-                free(var1); // Free var1's old block
+                free(var1);
             }
-            variables[var1] = variables[var2]; // Copy block and name
-            variables[var1].block.ref_count++; // Increment ref count
+            variables[var1] = variables[var2]; 
+            variables[var1].block.ref_count++; 
         }
     }
 
@@ -116,8 +115,7 @@ public:
         cout << "============================================================\n";
     }
 };
-
-// Rest of the code (Lexer, Parser, main) remains unchanged
+//Grammar
 enum TokenType { ID, LPAREN, RPAREN, SEMICOLON, ASSIGNOP, NUM_INT, END };
 
 struct Token {
@@ -190,7 +188,7 @@ public:
                 string var = lookahead.value;
                 match(ID);
                 match(RPAREN);
-                if (id == "free") mem.free(var); // Explicitly handle free(var)
+                if (id == "free") mem.free(var); 
             } else {
                 match(RPAREN);
                 if (id == "dump") mem.dump();
@@ -213,9 +211,9 @@ public:
             int size = stoi(lookahead.value);
             match(NUM_INT);
             match(RPAREN);
-            mem.alloc(var_name, size); // var = alloc(size)
+            mem.alloc(var_name, size); 
         } else {
-            mem.copy(var_name, id); // var = other_var
+            mem.copy(var_name, id);
         }
     }
 };
